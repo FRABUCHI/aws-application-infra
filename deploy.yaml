@@ -1,0 +1,28 @@
+version: 0.2
+env:
+  secrets-manager:
+    TF_AWS_ACCESS_KEY_ID: "/tc/pangaia/b4c/deploy/credential:TF_AWS_ACCESS_KEY_ID"
+    TF_AWS_SECRET_ACCESS_KEY: "/tc/pangaia/b4c/deploy/credential:TF_AWS_SECRET_ACCESS_KEY"
+phases:
+  pre_build:
+    commands:
+      - echo =================================================================[*] Install Terraform=================================================================
+      - yum install -y yum-utils
+      - yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
+      - yum -y install terraform
+      
+  build:
+    commands:
+      - echo =================================================================[*] Verify the installation=================================================================
+      - terraform -v
+
+  post_build:
+    commands:
+      - echo =================================================================[*] Deploy AWS Infra=================================================================
+      - export AWS_ACCESS_KEY_ID=$TF_AWS_ACCESS_KEY_ID
+      - export AWS_SECRET_ACCESS_KEY=$TF_AWS_SECRET_ACCESS_KEY
+      - export AWS_DEFAULT_REGION="${var.aws_region}"
+      - cd sub-pipeline
+      - terraform init
+      - terraform apply --auto-approve
+
