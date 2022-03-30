@@ -82,7 +82,19 @@ resource "aws_elastic_beanstalk_environment" "Sample_api_server_env" {
   setting {
     namespace = "aws:autoscaling:launchconfiguration"
     name = "InstanceType"
-    value = "t2.micro"
+    value = "t2.micro, t2.small"
+  }
+
+  setting {
+    namespace = "aws:autoscaling:asg"
+    name = "MinSize"
+    value = "2"
+  }
+
+  setting {
+    namespace = "aws:autoscaling:asg"
+    name = "MaxSize"
+    value = "6"
   }
 
   setting {
