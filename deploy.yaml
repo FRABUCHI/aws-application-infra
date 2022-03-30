@@ -1,8 +1,8 @@
 version: 0.2
 env:
   secrets-manager:
-    TF_AWS_ACCESS_KEY_ID: "/tc/pangaia/b4c/deploy/credential:TF_AWS_ACCESS_KEY_ID"
-    TF_AWS_SECRET_ACCESS_KEY: "/tc/pangaia/b4c/deploy/credential:TF_AWS_SECRET_ACCESS_KEY"
+    CD_AWS_ACCESS_KEY_ID: "sample/credential:CD_AWS_ACCESS_KEY_ID"
+    CD_AWS_SECRET_ACCESS_KEY: "sample/credential:CD_AWS_SECRET_ACCESS_KEY"
 phases:
   pre_build:
     commands:
@@ -15,14 +15,12 @@ phases:
     commands:
       - echo =================================================================[*] Verify the installation=================================================================
       - terraform -v
-
   post_build:
     commands:
       - echo =================================================================[*] Deploy AWS Infra=================================================================
-      - export AWS_ACCESS_KEY_ID=$TF_AWS_ACCESS_KEY_ID
-      - export AWS_SECRET_ACCESS_KEY=$TF_AWS_SECRET_ACCESS_KEY
-      - export AWS_DEFAULT_REGION="${var.aws_region}"
-      - cd sub-pipeline
+      - export AWS_ACCESS_KEY_ID=$CD_AWS_ACCESS_KEY_ID
+      - export AWS_SECRET_ACCESS_KEY=$CD_AWS_SECRET_ACCESS_KEY
+      - export AWS_DEFAULT_REGION="ap-northeast-2"
       - terraform init
       - terraform apply --auto-approve
 
