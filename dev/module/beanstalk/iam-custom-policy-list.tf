@@ -1,7 +1,7 @@
 resource "aws_iam_policy" "sample_api_server_ecr_access_policy" {
-  name        = "sample_api_server_ecr_access_policy"
+  name        = "${module.global_variables.this_env}-${var.app_name}-ecr-access-policy"
   path        = "/"
-  description = "sample_api_server_ecr_access_policy"
+  description = "${module.global_variables.this_env}-${var.app_name}-ecr-access-policy"
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -18,7 +18,7 @@ resource "aws_iam_policy" "sample_api_server_ecr_access_policy" {
         Sid = "AllowPull",
         Effect = "Allow",
         Resource = [
-          "arn:aws:ecr:${module.global_variables.this_aws_region}:${module.global_variables.this_aws_account}:repository/${var.repo_name}"
+          "arn:aws:ecr:${module.global_variables.this_aws_region}:${module.global_variables.this_aws_account}:repository/${module.global_variables.this_env}-${var.app_name}"
         ],
         Action = [
           "ecr:GetAuthorizationToken",

@@ -1,4 +1,4 @@
-variable "repo_name" {
+variable "app_name" {
     default = "sample-api-server"
 	type    = string
 }

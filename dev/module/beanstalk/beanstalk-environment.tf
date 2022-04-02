@@ -1,7 +1,7 @@
-resource "aws_elastic_beanstalk_environment" "Sample_api_server_env" {
-  name                = "Sample-api-server-env"
+resource "aws_elastic_beanstalk_environment" "sample_api_server_env" {
+  name                = "${module.global_variables.this_env}-${var.app_name}-env"
   application         = aws_elastic_beanstalk_application.sample_api_server.name
-  solution_stack_name = "64bit Amazon Linux 2 v3.4.12 running Docker"
+  solution_stack_name = "64bit Amazon Linux 2 v3.4.13 running Docker"
   setting {
     namespace = "aws:ec2:vpc"
     name      = "VPCId"
@@ -65,6 +65,7 @@ resource "aws_elastic_beanstalk_environment" "Sample_api_server_env" {
       namespace = "aws:autoscaling:launchconfiguration"
       name = "IamInstanceProfile"
       value = "aws-elasticbeanstalk-ec2-role"
+      # value = aws_iam_role.beanstalk_ec2_profile.name
   }
 
   setting {
@@ -83,36 +84,6 @@ resource "aws_elastic_beanstalk_environment" "Sample_api_server_env" {
     namespace = "aws:autoscaling:launchconfiguration"
     name = "InstanceType"
     value = "t2.micro, t2.small"
-  }
-
-  setting {
-    namespace = "aws:autoscaling:asg"
-    name = "MinSize"
-    value = "2"
-  }
-
-  setting {
-    namespace = "aws:autoscaling:asg"
-    name = "MaxSize"
-    value = "6"
-  }
-
-  setting {
-    namespace = "aws:elasticbeanstalk:cloudwatch:logs"
-    name = "StreamLogs"
-    value = "true"
-  }
-
-  setting {
-    namespace = "aws:elasticbeanstalk:cloudwatch:logs"
-    name = "DeleteOnTerminate"
-    value = "false"
-  }
-
-  setting {
-    namespace = "aws:elasticbeanstalk:cloudwatch:logs"
-    name = "RetentionInDays"
-    value = "30"
   }
 
   setting {

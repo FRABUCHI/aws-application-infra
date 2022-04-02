@@ -1,3 +1,8 @@
+variable "env" {
+	default = "dev"
+	type    = string
+}
+
 variable "aws_account" {
 	default = "601340144943"
 	type    = string

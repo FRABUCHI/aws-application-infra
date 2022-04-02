@@ -1,5 +1,5 @@
 resource "aws_iam_role" "beanstalk_ec2_profile" {
-  name = "sample-api-beanstalk-ec2-profile-role"
+  name = "${module.global_variables.this_env}-${var.app_name}-beanstalk-ec2-profile-role"
   
   assume_role_policy = jsonencode({
     Version = "2008-10-17"
@@ -13,10 +13,6 @@ resource "aws_iam_role" "beanstalk_ec2_profile" {
       },
     ]
   })
-
-  tags = {
-    tag-key = "sample-api-server"
-  }
 }
 
 resource "aws_iam_role_policy_attachment" "AWSElasticBeanstalkWebTier" {

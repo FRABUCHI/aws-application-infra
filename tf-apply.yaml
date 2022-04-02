@@ -21,6 +21,7 @@ phases:
       - export AWS_ACCESS_KEY_ID=$CD_AWS_ACCESS_KEY_ID
       - export AWS_SECRET_ACCESS_KEY=$CD_AWS_SECRET_ACCESS_KEY
       - export AWS_DEFAULT_REGION="ap-northeast-2"
+      - cd $ENV
       - terraform init
       - terraform apply --auto-approve
 

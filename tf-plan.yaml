@@ -1,0 +1,27 @@
+version: 0.2
+env:
+  secrets-manager:
+    CD_AWS_ACCESS_KEY_ID: "sample/credential:CD_AWS_ACCESS_KEY_ID"
+    CD_AWS_SECRET_ACCESS_KEY: "sample/credential:CD_AWS_SECRET_ACCESS_KEY"
+phases:
+  pre_build:
+    commands:
+      - echo =================================================================[*] Install Terraform=================================================================
+      - yum install -y yum-utils
+      - yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
+      - yum -y install terraform
+      
+  build:
+    commands:
+      - echo =================================================================[*] Verify the installation=================================================================
+      - terraform -v
+  post_build:
+    commands:
+      - echo =================================================================[*] Deploy AWS Infra=================================================================
+      - export AWS_ACCESS_KEY_ID=$CD_AWS_ACCESS_KEY_ID
+      - export AWS_SECRET_ACCESS_KEY=$CD_AWS_SECRET_ACCESS_KEY
+      - export AWS_DEFAULT_REGION="ap-northeast-2"
+      - cd $ENV
+      - terraform init
+      - terraform plan
+

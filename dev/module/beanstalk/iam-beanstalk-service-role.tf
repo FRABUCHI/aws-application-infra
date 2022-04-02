@@ -1,5 +1,5 @@
 resource "aws_iam_role" "beanstalk_service" {
-  name = "sample-api-beanstalk-service-role"
+  name = "${module.global_variables.this_env}-${var.app_name}-beanstalk-service-role"
   
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -20,7 +20,7 @@ resource "aws_iam_role" "beanstalk_service" {
   })
 
   tags = {
-    tag-key = "sample-api-server"
+    tag-key = "${module.global_variables.this_env}-${var.app_name}"
   }
 }
 
